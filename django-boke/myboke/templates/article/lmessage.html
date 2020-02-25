@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load  staticfiles %}
+{% block title %}
+    留言
+{% endblock %}
+{% block mycss %}
+    <link rel="stylesheet" href="{% static 'css/msg/m.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <div class="leftbox">
+        <div class="infos">
+            <div class="newsview">
+                <h2 class="intitle">您现在的位置是：<a href='/'>首页</a>&nbsp;>&nbsp;留言</h2>
+                <div class="gbook">
+                    {% for message in page.object_list %}
+                        <div class="fb">
+                            <ul>
+                                <span class="tximg"><img src=" {{ message.icon }}"></span>
+                                <p class="fbtime"><span>{{ message.date }}</span> {{ message.nickname }}</p>
+                                <p class="fbinfo">{{ message.content }}</p>
+                            </ul>
+                        </div>
+                    {% empty %}
+                        <div class="fb">
+                            <p>还没有任何留言信息，赶快发表吧....</p>
+                        </div>
+
+                    {% endfor %}
+                    <div class="page">
+                        <a href="{% url 'article:message' %}?page={% if page.has_previous %}{{ page.previous_page_number }}{% else %}1{% endif %}">&lt;</a>
+                        {% for page_number in  page.paginator.page_range %}
+                            {% if page.number == page_number %}
+                              <b>{{ page_number }}</b>
+                            {% else %}
+                             <a href="{% url 'article:message' %}?page={{ page_number }}">{{ page_number }}</a>
+                            {% endif %}
+                        {% endfor %}
+                        <a href="{% url 'article:message' %}?page={% if page.has_next %}{{ page.next_page_number }}{% else %}{{ page.paginator.num_pages }}{% endif %}">&gt;</a>
+                        <a href="/news/index_5.html">&gt;&gt;</a>
+                    </div>
+                    <div class="gbox">
+                        <form action="{% url 'article:message' %}" method="post" name="form1" id="form1">
+                            {% csrf_token %}
+                            <p><strong>来说点儿什么吧...</strong></p>
+                            <p><span> 您的姓名:</span>
+                                <input name="name" type="text" id="name"/>
+                                *</p>
+                            <p><span>选择头像:</span> *</p>
+                            <p><i>
+                                <input type="radio" value="{% static 'images/tx1.jpg' %}" id="1" name="mycall"
+                                       style="display:none">
+                                <img id="a" src="{% static 'images/tx1.jpg' %}" onclick="myFun(this.id)"></i> <i>
+                                <input type="radio" value="{% static 'images/tx2.jpg' %}" id="2" name="mycall"
+                                       style="display:none">
+                                <img id="b" src="{% static 'images/tx2.jpg' %}" onclick="myFun(this.id)"></i> <i>
+                                <input type="radio" value="{% static 'images/tx3.jpg' %}" id="3" name="mycall"
+                                       style="display:none">
+                                <img id="c" src="{% static 'images/tx3.jpg' %}" onclick="myFun(this.id)"></i> <i>
+                                <input type="radio" value="{% static 'images/tx4.jpg' %}" id="4" name="mycall"
+                                       style="display:none">
+                                <img id="d" src="{% static 'images/tx4.jpg' %}" onclick="myFun(this.id)"></i> <i>
+                                <input type="radio" value="{% static 'images/tx5.jpg' %}" id="5" name="mycall"
+                                       style="display:none">
+                                <img id="e" src="{% static 'images/tx5.jpg' %}" onclick="myFun(this.id)"></i> <i>
+                                <input type="radio" value="{% static 'images/tx6.jpg' %}" id="6" name="mycall"
+                                       style="display:none">
+                                <img id="f" src="{% static 'images/tx6.jpg' %}" onclick="myFun(this.id)"></i> <i>
+                                <input type="radio" value="{% static 'images/tx7.jpg' %}" id="7" name="mycall"
+                                       style="display:none">
+                                <img id="g" src="{% static 'images/tx7.jpg' %}" onclick="myFun(this.id)"></i> <i>
+                                <input type="radio" value="{% static 'images/tx8.jpg' %}" id="8" name="mycall"
+                                       style="display:none">
+                                <img id="h" src="{% static 'images/tx8.jpg' %}" onclick="myFun(this.id)"></i></p>
+                            <p><span class="tnr">留言内容:</span>
+                                <textarea name="lytext" cols="60" rows="12" id="lytext"></textarea>
+                            </p>
+                            <p>
+                                <input type="submit" name="Submit3" value="提交"/>
+                            </p>
+                        </form>
+                    </div>
+                </div>
+                <script>
+                    function myFun(sId) {
+                        var oImg = document.getElementsByTagName('img');
+                        for (var i = 0; i < oImg.length; i++) {
+                            if (oImg[i].id == sId) {
+                                console.log(oImg[i].previousSibling.previousSibling)
+                                oImg[i].previousSibling.previousSibling.checked = true;
+                                oImg[i].style.opacity = '1';
+                            } else {
+                                oImg[i].style.opacity = '.8';
+                            }
+                        }
+                    }
+                </script>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

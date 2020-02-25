@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    写博客
+{% endblock %}
+{% block mycss %}
+    <style>
+       form>p{
+           margin: 5px 0;
+           font-size: 16px;
+       }
+    </style>
+{% endblock %}
+{% block content %}
+    <form action="{% url 'article:write' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.media }}
+        {{ form.as_p }}
+        <input type="submit" value="发表文章" class="btn btn-default">
+
+    </form>
+{% endblock %}

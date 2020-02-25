@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+</head>
+<body>
+<form action="{% url 'user:zhuce' %}" method="post">{% csrf_token %}
+    {{ rform.as_p }}
+
+    <input type="submit" value="注册">
+</form>
+
+<form action="{% url 'user:zhuce' %}" method="post">{% csrf_token %}
+{#    {{ rform.as_ul }}#}
+    {{ rform.username }}
+    <input type="submit" value="注册">
+</form>
+</body>
+</html>

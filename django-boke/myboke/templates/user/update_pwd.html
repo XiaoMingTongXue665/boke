@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}
+    用户登录
+{% endblock %}
+{% block mycss %}
+    <link href="{% static  'css/register.css' %}" rel="stylesheet" type="text/css" media="all"/>
+    <!-- css files -->
+
+    <!-- Online-fonts -->
+    <link href="//fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&amp;subset=latin-ext,vietnamese"
+          rel="stylesheet">
+    <!-- //Online-fonts -->
+{% endblock %}
+
+{% block content %}
+    <div class="main">
+        <div class="main-w3l">
+            <h1 class="logo-w3">更新密码</h1>
+
+            <div class="w3layouts-main">
+
+                <p>{{ msg }} {{ errors }}</p>
+                <form action="{% url 'user:update_pwd' %}" method="post"> {% csrf_token %}
+                    <input type="hidden" value="{{ c }}" name="code">
+                    <input placeholder="输入新密码" name="password" type="password" required="">
+                    <input placeholder="输入确认密码" name="repassword" type="password" required="">
+                    <input type="submit" value="更新密码">
+                </form>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+

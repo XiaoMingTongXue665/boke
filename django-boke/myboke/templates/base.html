@@ -1,0 +1,68 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}
+        达达个人博客 - 一个站在运维开发设计之路的技术员个人博客网站
+    {% endblock %}</title>
+    <meta name="keywords" content="达达个人博客"/>
+    <meta name="description" content="达达个人博客。"/>
+    <link href="{% static 'css/base.css' %}" rel="stylesheet">
+    <link href="{% static 'css/index.css' %}" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="{% static 'js/modernizr.js' %}"></script>
+    <![endif]-->
+    <script src="{% static 'js/scrollReveal.js' %}"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    {% block mycss %}
+
+    {% endblock %}
+</head>
+<body>
+<header>
+    <div style="text-align: right;padding-top: 20px;padding-right:10px;font-size: 18px;">
+        {% if request.user.is_authenticated %}
+            欢迎！<a href="{% url 'user:center' %}">{{ request.user.username }}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="{% url 'user:logout' %}">注销</a>
+        {% else %}
+            <a href="{% url 'user:login' %}"> 登录</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="{% url 'user:register' %}">注册</a>
+        {% endif %}
+    </div>
+    <div class="logo" data-scroll-reveal="enter right over 1s"><a href="/"><img
+            src="{% static 'images/logo.png' %}"></a></div>
+
+    <nav class="topnav" data-scroll-reveal="enter bottom over 1s after 1s">
+        <a href="{% url 'index' %}"><span>首页</span><span class="en">Home</span></a>
+        <a href="{% url 'article:write' %}"><span>写博客</span><span class="en">Life</span></a>
+        <a href="{% url 'article:show' %}"><span>学无止境</span><span class="en">Learn</span></a>
+        <a href="learn.html"><span>关于我</span><span class="en">About</span></a>
+        <a href="{% url 'user:center' %}"><span>个人资料</span><span class="en">Detail</span></a>
+        <a href="{% url 'article:message' %}"><span>留言</span><span class="en">Saying</span></a></nav>
+</header>
+
+<article>
+    <div class="container">
+        {% block content %}
+
+        {% endblock %}
+    </div>
+</article>
+
+<footer>
+    Design by DanceSmile <a href="/">京ICP备11111111号-1</a>
+</footer>
+<script>
+    if (!(/msie [6|7|8|9]/i.test(navigator.userAgent))) {
+        (function () {
+            window.scrollReveal = new scrollReveal({reset: true});
+        })();
+    }
+    ;
+</script>
+{% block myjs %}
+
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}
+    学无止境
+{% endblock %}
+{% block mycss %}
+    <!-- css files -->
+
+    <!-- Online-fonts -->
+    <link href="//fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&amp;subset=latin-ext,vietnamese"
+          rel="stylesheet">
+    <!-- //Online-fonts -->
+    <link href="{% static 'css/learn.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <h2 class="ctitle"><b>学无止境</b> <span>不要轻易放弃。学习成长的路上，我们长路漫漫，只因学无止境。</span></h2>
+    <div class="rnav">
+        <ul>
+            {% for tag in tags %}
+                <li><a href="{% url 'article:show' %}?tid={{ tag.id }}&page=1">{{ tag.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    <ul class="cbp_tmtimeline">
+        {% for article in page.object_list %}
+            <li>
+                <time class="cbp_tmtime"><span>{{ article.date|date:'m-d' }}</span>
+                    <span>{{ article.date|date:"Y" }}</span></time>
+                <div class="cbp_tmicon"></div>
+                <div class="cbp_tmlabel" data-scroll-reveal="enter right over 1s">
+                    <h2>{{ article.title }}</h2>
+                    <p><span class="blogpic"><a href="/"><img
+                            src="{{ MEDIA_URL }}{{ article.image }}"></a></span>{{ article.desc }}</p>
+                    <a href="{% url 'article:detail' %}?id={{ article.id }}" target="_blank" class="readmore">阅读全文&gt;&gt;</a>
+                </div>
+            </li>
+        {% endfor %}
+
+    </ul>
+    <div class="page">
+        <a title="Total record"><b>{{ page.paginator.num_pages }}</b></a>
+        {#        <a href="/news/index_5.html">&lt;&lt;</a></div>#}
+            <a href="{% url 'article:show' %}?page={% if page.has_previous %}{{ page.previous_page_number }}{% else %}1{% endif %}&tid={{ tid }}">&lt;</a>
+        {% for page_number in  page.paginator.page_range %}
+            {% if page.number == page_number %}
+                <b>{{ page_number }}</b>
+            {% else %}
+                <a href="{% url 'article:show' %}?page={{ page_number }}&tid={{ tid }}">{{ page_number }}</a>
+            {% endif %}
+        {% endfor %}
+
+        <a href="{% url 'article:show' %}?page={% if page.has_next %}{{ page.next_page_number }}{% else %}{{ page.paginator.num_pages }}{% endif %}&tid={{ tid }}">&gt;</a>
+        <a href="/news/index_5.html">&gt;&gt;</a>
+    </div>
+
+{% endblock %}
